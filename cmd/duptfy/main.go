@@ -2,7 +2,7 @@ package main
 
 import (
     "fmt"
-    "github.com/waynedupreez1/duptfy/internal/flag"
+    "github.com/waynedupreez1/duptfy/flag"
 )
 
 func main() {
