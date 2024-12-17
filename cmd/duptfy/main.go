@@ -2,9 +2,9 @@ package main
 
 import (
     "fmt"
-    "github.com/waynedupreez1/duptfy/flag"
+    "github.com/waynedupreez1/duptfy/internal/flag"
 )
 
 func main() {
-    fmt.Println("Hello, World")
+    fmt.Println("%v", flag.flagParse())
 }
