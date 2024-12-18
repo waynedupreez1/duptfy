@@ -1,10 +1,17 @@
 package main
 
 import (
-    "fmt"
-    "github.com/waynedupreez1/duptfy/internal/flag"
+	"fmt"
+
+	"github.com/waynedupreez1/duptfy/internal/flags"
+	"github.com/waynedupreez1/duptfy/internal/logger"
 )
 
 func main() {
-    fmt.Println("%v", flag.flagParse())
+
+    log := logger.New(logger.Info)
+
+    flags := flags.New(log)
+
+    log.Info(fmt.Sprintf("blah: %+v", flags))
 }
