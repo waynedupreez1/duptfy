@@ -1,3 +1,6 @@
+// Handles all of the flags returned when the cli is executed
+// Author: Wayne du Preez
+
 package flags
 
 import (
@@ -9,21 +12,23 @@ import (
 )
 
 type Flags struct {
-    Server *url.URL
-    Cmd string
+    Server *url.URL //Required
+    Cmd string  //Required
+    Message string  //Required
 }
 
 func Get(logger logger.ILogger) *Flags {
 
     logger.Info("Get Flags")
 
-    var urlString,cmd string
-    flag.StringVar(&urlString, "s", "", "ntfy endpoint URL ie. http://example.com/backup")
-    flag.StringVar(&cmd, "c", "", "Bash command to run ie. 'ls -als | grep blah'")
+    var urlString,cmd, message string
+    flag.StringVar(&urlString, "s", "", "Required. ntfy endpoint URL ie. http://example.com/backup.")
+    flag.StringVar(&cmd, "c", "", "Required. Bash command to run ie. 'ls -als | grep blah'.")
+    flag.StringVar(&message, "m", "", "Required. Message when sent to ntfy ie. 'Local Rsnapshot backup'.")
 
     flag.Parse()
 
-    if urlString == "" || cmd == "" {
+    if urlString == "" || cmd == "" || message == "" {
         flag.Usage()
         os.Exit(1)
     }
@@ -40,12 +45,13 @@ func Get(logger logger.ILogger) *Flags {
     }
 
     logger.Info(fmt.Sprintf("ntfy Server URL: %s", serverURL))
-    logger.Info(fmt.Sprintf("Command to run: %s", cmd))
+    logger.Info(fmt.Sprintf("Command that will run: %s", cmd))
     
-    f := Flags{
+    flags := Flags{
         Server: serverURL, 
         Cmd: cmd,
+        Message: message,
     }
 
-    return &f
+    return &flags
 }

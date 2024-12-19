@@ -1,3 +1,7 @@
+// Creates a logging interface used by all other packages
+// pretty much uses slog for logging
+// Author: Wayne du Preez
+
 package logger
 
 import (

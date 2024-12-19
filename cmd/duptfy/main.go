@@ -7,14 +7,11 @@ import (
 )
 
 func main() {
-
     log := logger.New(logger.Info)
 
     flags := flags.Get(log)
 
     cli := cli.New(log, flags)
 
-    cli.RunCmd()
-
-    cli.SendNtfy()
+    cli.Main()
 }
