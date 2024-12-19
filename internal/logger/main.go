@@ -15,10 +15,10 @@ const (
 )
 
 type ILogger interface {
-    Debug(msg string)
-    Info(msg string)
-    Warn(msg string)
-    Error(msg string)
+    Debug(msg string, keysAndValues ...any)
+    Info(msg string, keysAndValues ...any)
+    Warn(msg string, keysAndValues ...any)
+    Error(msg string, keysAndValues ...any)
 }
 
 type SlogLogger struct {
@@ -41,7 +41,8 @@ func New(logLevel LogLevel) ILogger {
     }
     
     handler := slog.NewTextHandler(os.Stdout, &slog.HandlerOptions{
-		Level: level,})
+		Level: level,
+    })
     
     logger := SlogLogger {
         logger: slog.New(handler),
@@ -50,18 +51,19 @@ func New(logLevel LogLevel) ILogger {
     return &logger
 }
 
-func (t *SlogLogger) Debug(msg string) {
-    t.logger.Debug(msg)
+func (t *SlogLogger) Debug(msg string, keysAndValues ...any) {
+
+    t.logger.Debug(msg, keysAndValues...)
 }
 
-func (t *SlogLogger) Info(msg string) {
-    t.logger.Info(msg)
+func (t *SlogLogger) Info(msg string, keysAndValues ...any) {
+    t.logger.Info(msg, keysAndValues...)
 }
 
-func (t *SlogLogger) Warn(msg string) {
-    t.logger.Warn(msg)
+func (t *SlogLogger) Warn(msg string, keysAndValues ...any) {
+    t.logger.Warn(msg, keysAndValues...)
 }
 
-func (t *SlogLogger) Error(msg string) {
-    t.logger.Error(msg)
+func (t *SlogLogger) Error(msg string, keysAndValues ...any) {
+    t.logger.Error(msg, keysAndValues...)
 }
