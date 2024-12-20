@@ -10,11 +10,11 @@ on:
       tag:
         description: "What tag to use"
         default: "0.0.0"      
-  pull_request:
-    types:
-      - closed
-    branches:
-      - main
+  # pull_request:
+  #   types:
+  #     - closed
+  #   branches:
+  #     - main
 
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
@@ -52,6 +52,9 @@ jobs:
         GOOS=linux GOARCH=amd64 go build -o duptfy-linux-amd64 cmd/duptfy/main.go
         GOOS=linux GOARCH=arm go build -o duptfy-linux-arm cmd/duptfy/main.go
 
+        tar -cf duptfy-linux-amd64.tar duptfy-linux-amd64
+        tar -cf duptfy-linux-arm.tar duptfy-linux-arm
+
     - name: "Configure tags"
       if: github.ref_name == 'main'
       run: |
@@ -68,5 +71,5 @@ jobs:
       with:
         tag_name: ${{ github.event.inputs.tag }}
         files: 
-          duptfy-linux-amd64
-          duptfy-linux-arm
+          duptfy-linux-amd64.tar
+          duptfy-linux-arm.tar
