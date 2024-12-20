@@ -9,8 +9,10 @@ import (
 	"log/slog"
 )
 
+// LogLevel allows other packages to use this
 type LogLevel int
 
+// Debug Allows for different loglevels to be used
 const (
     Debug LogLevel = iota
 	Info
@@ -18,6 +20,7 @@ const (
 	Error
 )
 
+// ILogger is the logger interface
 type ILogger interface {
     Debug(msg string, keysAndValues ...any)
     Info(msg string, keysAndValues ...any)
@@ -25,10 +28,11 @@ type ILogger interface {
     Error(msg string, keysAndValues ...any)
 }
 
-type SlogLogger struct {
+type slogLogger struct {
     logger *slog.Logger
 }
 
+// New creates a brand new logger
 func New(logLevel LogLevel) ILogger {    
 
     level := new(slog.LevelVar)
@@ -48,26 +52,30 @@ func New(logLevel LogLevel) ILogger {
 		Level: level,
     })
     
-    logger := SlogLogger {
+    logger := slogLogger {
         logger: slog.New(handler),
     }
     
     return &logger
 }
 
-func (t *SlogLogger) Debug(msg string, keysAndValues ...any) {
+// Debug allows for logging debug messages
+func (t *slogLogger) Debug(msg string, keysAndValues ...any) {
 
     t.logger.Debug(msg, keysAndValues...)
 }
 
-func (t *SlogLogger) Info(msg string, keysAndValues ...any) {
+// Info allows for logging info messages
+func (t *slogLogger) Info(msg string, keysAndValues ...any) {
     t.logger.Info(msg, keysAndValues...)
 }
 
-func (t *SlogLogger) Warn(msg string, keysAndValues ...any) {
+// Warn allows for logging warn messages
+func (t *slogLogger) Warn(msg string, keysAndValues ...any) {
     t.logger.Warn(msg, keysAndValues...)
 }
 
-func (t *SlogLogger) Error(msg string, keysAndValues ...any) {
+// Error allows for logging error messages
+func (t *slogLogger) Error(msg string, keysAndValues ...any) {
     t.logger.Error(msg, keysAndValues...)
 }

@@ -11,7 +11,10 @@ The usage is pretty straight forward there is a few arguments
 
 # Branch Names
 
-Branch names will adjust how tags are created:
-* bugfix/description_of_the_change => patch
-* feature/description_of_the_change => minor
-* release/description_of_the_change => mayor
+Branch names to adjust semver
+* patch => bugfix/description_of_the_change  results in => v0.1.0 results in v0.1.1
+* minor => feature/description_of_the_change results in => v0.1.0 results in v0.2.0
+* major => release/description_of_the_change results in => v0.1.0 results in v1.0.0
+
+Branch names to adjust semver
+* <-ANYTHING ELSE->/description_of_the_change results in => v0.1.0 results in v0.1.0+1
