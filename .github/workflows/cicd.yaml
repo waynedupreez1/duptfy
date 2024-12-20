@@ -51,7 +51,7 @@ jobs:
         GOOS=linux GOARCH=arm go build -o duptfy-linux-arm cmd/duptfy/main.go
 
     - name: "Configure tags"
-      if: github.ref_name == 'main'
+      #if: github.ref_name == 'main'
       run: |
         #Get latest tags
         git ls-remote --tags --sort=committerdate | grep -o 'v.*' | sort -r
