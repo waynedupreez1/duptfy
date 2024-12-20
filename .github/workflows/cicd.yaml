@@ -32,7 +32,15 @@ jobs:
       run: |
         go version
         go get -u golang.org/x/lint/golint
-        
+
+    - id: semver-tag
+      uses: gandarez/semver-action@master
+      with:
+        branching_model: "trunk-based"
+
+    - name: "Created tag"
+      run: echo "tag ${{ steps.semver-tag.outputs.semver_tag }}"
+
     # Run build of the application
     - name: Run build
       run: go build . 
