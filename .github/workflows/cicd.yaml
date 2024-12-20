@@ -40,14 +40,14 @@ jobs:
         go get -u golang.org/x/lint/golint
 
     - name: Download Semver Tag
-      if: github.event.inputs.manual == 'false'
+      if: ${{ github.event.inputs.manual == 'false' }}
       id: semver-tag
       uses: gandarez/semver-action@master
       with:
         branching_model: "trunk-based"
 
     - name: "Created tag"
-      if: github.event.inputs.manual == 'false'
+      if: ${{ github.event.inputs.manual == 'false' }}
       run: echo "tag ${{ steps.semver-tag.outputs.semver_tag }}"
 
     # Run build of the application
