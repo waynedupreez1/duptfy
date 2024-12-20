@@ -6,6 +6,11 @@ name: CICD
 # events but only for the master branch
 on:
   workflow_dispatch:
+    inputs:
+      manual:
+        description: 'Manual Step'     
+        required: true
+        default: 'false'
   push:
     branches:
     - master
@@ -34,12 +39,14 @@ jobs:
         go version
         go get -u golang.org/x/lint/golint
 
-    - id: semver-tag
+    - name: Download Semver Tag
+      id: semver-tag
       uses: gandarez/semver-action@master
       with:
         branching_model: "trunk-based"
 
     - name: "Created tag"
+      if: github.event.inputs.manual == 'false'
       run: echo "tag ${{ steps.semver-tag.outputs.semver_tag }}"
 
     # Run build of the application
