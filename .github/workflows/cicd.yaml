@@ -61,6 +61,8 @@ jobs:
         git tag ${{ github.event.inputs.name }}
         #Push tag
         git push origin ${{ github.event.inputs.name }}
+      with:
+        github_token: ${{ secrets.GITHUB_TOKEN }}
 
     - name: Release
       if: github.ref_name == 'main'
