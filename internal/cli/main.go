@@ -41,7 +41,7 @@ func (t *CLI) Main() {
 
     t.logger.Info("Running Main")
 
-    _, err := t.runCmd()
+    _, err := t.runCommand()
 
     if err != nil {
         t.sendNtfy(high, err.Error())
@@ -50,11 +50,11 @@ func (t *CLI) Main() {
     }
 }
 
-func (t *CLI) runCmd() (string, error) {
+func (t *CLI) runCommand() (string, error) {
 
-    t.logger.Info(fmt.Sprintf("Running cmd: %s", t.flags.Cmd))
+    t.logger.Info(fmt.Sprintf("Running command: %s", t.flags.Command))
 
-    out, err := exec.Command("bash", "-c", t.flags.Cmd).CombinedOutput()
+    out, err := exec.Command("bash", "-c", t.flags.Command).CombinedOutput()
     if err != nil {
 
         var errorStr error

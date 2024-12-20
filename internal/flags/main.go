@@ -12,14 +12,31 @@ import (
 )
 
 type Flags struct {
-    Server *url.URL //Required
-    Cmd string  //Required
-    Message string  //Required
+    rawServer string
+    rawCommand string
+    rawMessage string
+    Server *url.URL
+    Command string
+    Message string
 }
 
 func Get(logger logger.ILogger) *Flags {
 
     logger.Info("Get Flags")
+
+    rflags := initialize(logger)
+    vflag, err := rflags.Validate(logger)
+    
+    if err != nil {
+        os.Exit(1)
+    }
+
+    return vflag
+}
+
+func initialize(logger logger.ILogger) *Flags {
+
+    logger.Info("Return Raw Flags")
 
     var urlString,cmd, message string
     flag.StringVar(&urlString, "s", "", "Required. ntfy endpoint URL ie. http://example.com/backup.")
@@ -28,30 +45,45 @@ func Get(logger logger.ILogger) *Flags {
 
     flag.Parse()
 
-    if urlString == "" || cmd == "" || message == "" {
-        flag.Usage()
-        os.Exit(1)
-    }
-
-    serverURL, err := url.Parse(urlString)
-    if err != nil {
-        logger.Error(err.Error())
-        os.Exit(1)
-    }
-
-    if !serverURL.IsAbs(){
-        logger.Error(fmt.Sprintf("Invalid URL: %s", serverURL))
-        os.Exit(1)
-    }
-
-    logger.Info(fmt.Sprintf("ntfy Server URL: %s", serverURL))
-    logger.Info(fmt.Sprintf("Command that will run: %s", cmd))
-    
     flags := Flags{
-        Server: serverURL, 
-        Cmd: cmd,
-        Message: message,
+        rawServer: urlString, 
+        rawCommand: cmd,
+        rawMessage: message,
     }
 
     return &flags
+}
+
+func (t *Flags)Validate(logger logger.ILogger) (*Flags, error) {
+
+    logger.Info("Validate Raw Flags")
+
+    if t.rawServer == "" || t.rawCommand == "" || t.rawMessage == "" {
+        flag.Usage()
+        errMsg := fmt.Errorf("empty flags passed")
+        logger.Error(errMsg.Error())
+        return nil,errMsg
+    }
+
+    serverURL, err := url.Parse(t.rawServer)
+    if err != nil {
+        errMsg := fmt.Errorf("url parsing failed with: %s", err.Error())
+        logger.Error(errMsg.Error())
+        return nil,errMsg
+    }
+
+    if !serverURL.IsAbs(){
+        errMsg := fmt.Errorf("invalid url: %s", serverURL)
+        logger.Error(errMsg.Error())
+        return nil,errMsg
+    }
+
+    logger.Info(fmt.Sprintf("ntfy Server URL: %s", serverURL))
+    logger.Info(fmt.Sprintf("Command that will run: %s", t.rawCommand))
+    
+    t.Server = serverURL
+    t.Message = t.rawMessage
+    t.Command = t.rawCommand
+
+    return t, nil
 }
