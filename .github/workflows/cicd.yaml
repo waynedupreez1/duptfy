@@ -43,7 +43,7 @@ jobs:
       run: go test -v ./...
 
     - name: Run build
-      run:
+      run: |
         GOOS=linux GOARCH=amd64 go build -o duptfy-linux-amd64 cmd/duptfy/main.go
         GOOS=linux GOARCH=arm go build -o duptfy-linux-arm cmd/duptfy/main.go
 
