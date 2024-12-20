@@ -49,11 +49,14 @@ jobs:
 
     - name: Run build
       run: |
-        GOOS=linux GOARCH=amd64 go build -o duptfy-linux-amd64 cmd/duptfy/main.go
-        GOOS=linux GOARCH=arm go build -o duptfy-linux-arm cmd/duptfy/main.go
+        GOOS=linux GOARCH=amd64 go build -o /tmp/duptfy-linux-amd64 cmd/duptfy/main.go
+        GOOS=linux GOARCH=arm go build -o /tmp/duptfy-linux-arm cmd/duptfy/main.go
 
         tar -cf duptfy-linux-amd64.tar duptfy-linux-amd64
         tar -cf duptfy-linux-arm.tar duptfy-linux-arm
+
+        pwd
+        ls -als
 
     - name: "Configure tags"
       if: github.ref_name == 'main'
