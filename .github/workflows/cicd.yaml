@@ -6,14 +6,12 @@ name: CICD
 # events but only for the master branch
 on:
   workflow_dispatch:
-    inputs:
-      manual:
-        description: 'Manual Step'     
-        required: true
-        default: 'false'
-  push:
+  pull_request:
+    types:
+      - closed
     branches:
-    - master
+      - master
+
 
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
@@ -46,21 +44,24 @@ jobs:
 
     - name: Run build
       run:
-        go build cmd/duptfy/main.go
+        GOOS=linux GOARCH=amd64 go build -o duptfy-linux-amd64 cmd/duptfy/main.go
+        GOOS=linux GOARCH=arm go build -o duptfy-linux-arm cmd/duptfy/main.go
 
     - name: Download Semver Tag
-      if: ${{ inputs.manual == 'false' }}
+      if: github.event.pull_request.merged == true
       id: semver-tag
       uses: gandarez/semver-action@master
       with:
         branching_model: "trunk-based"
 
     - name: "Created tag"
-      if: ${{ inputs.manual == 'false' }}
+      if: github.event.pull_request.merged == true
       run: echo "tag ${{ steps.semver-tag.outputs.semver_tag }}"
 
     - name: Release
-      if: ${{ inputs.manual == 'false' }}
+      if: github.event.pull_request.merged == true
       uses: softprops/action-gh-release@v2
       with:
-        files: Release.txt
+        files: 
+          duptfy-linux-amd64
+          duptfy-linux-arm
