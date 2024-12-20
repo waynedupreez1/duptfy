@@ -11,6 +11,7 @@ import (
 	"github.com/waynedupreez1/duptfy/internal/logger"
 )
 
+// Flags contains all the behaviour and flags data
 type Flags struct {
     rawServer string
     rawCommand string
@@ -20,12 +21,13 @@ type Flags struct {
     Message string
 }
 
+// Get will retrive and validate all passed flags
 func Get(logger logger.ILogger) *Flags {
 
     logger.Info("Get Flags")
 
     rflags := initialize(logger)
-    vflag, err := rflags.Validate(logger)
+    vflag, err := rflags.validate(logger)
     
     if err != nil {
         os.Exit(1)
@@ -54,7 +56,7 @@ func initialize(logger logger.ILogger) *Flags {
     return &flags
 }
 
-func (t *Flags)Validate(logger logger.ILogger) (*Flags, error) {
+func (t *Flags)validate(logger logger.ILogger) (*Flags, error) {
 
     logger.Info("Validate Raw Flags")
 

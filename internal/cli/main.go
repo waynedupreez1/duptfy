@@ -20,11 +20,13 @@ const (
     high
 )
 
+// CLI contains the behaviour for the application
 type CLI struct {
     logger logger.ILogger
     flags *flags.Flags
 }
 
+// New creates a a CLI structure
 func New(logger logger.ILogger, flags *flags.Flags) *CLI {
 
     logger.Info("Initializing CLI")
@@ -37,6 +39,7 @@ func New(logger logger.ILogger, flags *flags.Flags) *CLI {
     return &cli
 }
 
+// Main is CLI's main execution
 func (t *CLI) Main() {
 
     t.logger.Info("Running Main")

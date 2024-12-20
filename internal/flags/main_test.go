@@ -30,7 +30,7 @@ func TestValidate_ConfigPassEmptyFlags_ExpectErrorEmptyFlagsPassed(t *testing.T)
         Message: "",
     }
     
-    _, err := flags.Validate(log)
+    _, err := flags.validate(log)
     if err != nil {
         if !strings.Contains(err.Error(), "empty flags passed"){
             t.Failed()
@@ -51,7 +51,7 @@ func TestValidate_ConfigPassNotGoodUrl_ExpectInvalidUrl(t *testing.T) {
         Message: "",
     }
     
-    _, err := flags.Validate(log)
+    _, err := flags.validate(log)
     if err != nil {
         if !strings.Contains(err.Error(), "invalid url"){
             t.Failed()
