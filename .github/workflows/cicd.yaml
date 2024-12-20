@@ -58,16 +58,16 @@ jobs:
         #Get latest tags
         git ls-remote --tags --sort=committerdate | grep -o 'v.*' | sort -r
         #Create Tag
-        git tag ${{ github.event.inputs.name }}
+        git tag ${{ github.event.inputs.tag }}
         #Push tag
-        git push origin ${{ github.event.inputs.name }}
+        git push origin ${{ github.event.inputs.tag }}
 
 
     - name: Release
       if: github.ref_name == 'main'
       uses: softprops/action-gh-release@v2
       with:
-        tag_name: ${{ github.event.inputs.name }}
+        tag_name: ${{ github.event.inputs.tag }}
         files: 
           duptfy-linux-amd64
           duptfy-linux-arm
