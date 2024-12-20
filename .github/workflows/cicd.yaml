@@ -40,6 +40,7 @@ jobs:
         go get -u golang.org/x/lint/golint
 
     - name: Download Semver Tag
+      if: github.event.inputs.manual == 'false'
       id: semver-tag
       uses: gandarez/semver-action@master
       with:
