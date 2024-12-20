@@ -49,11 +49,11 @@ jobs:
 
     - name: Run build
       run: |
-        GOOS=linux GOARCH=amd64 go build -o duptfy-linux-amd64 cmd/duptfy/main.go
-        GOOS=linux GOARCH=arm go build -o duptfy-linux-arm cmd/duptfy/main.go
+        GOOS=linux GOARCH=amd64 go build -o /home/runner/duptfy-linux-amd64 cmd/duptfy/main.go
+        GOOS=linux GOARCH=arm go build -o /home/runner/duptfy-linux-arm cmd/duptfy/main.go
 
-        tar -cf duptfy-linux-amd64.tar duptfy-linux-amd64
-        tar -cf duptfy-linux-arm.tar duptfy-linux-arm
+        tar -cf /home/runner/duptfy-linux-amd64.tar /home/runner/duptfy-linux-amd64
+        tar -cf /home/runner/duptfy-linux-arm.tar /home/runner/duptfy-linux-arm
 
         pwd
         ls -als
@@ -74,5 +74,5 @@ jobs:
       with:
         tag_name: ${{ github.event.inputs.tag }}
         files: 
-          /home/runner/work/duptfy/duptfy/duptfy-linux-amd64.tar
-          /home/runner/work/duptfy/duptfy/duptfy-linux-arm.tar
+          /home/runner/duptfy-linux-amd64.tar
+          /home/runner/duptfy-linux-arm.tar
