@@ -74,5 +74,5 @@ jobs:
       with:
         tag_name: ${{ github.event.inputs.tag }}
         files: 
-          duptfy-linux-amd64.tar
-          duptfy-linux-arm.tar
+          /home/runner/work/duptfy/duptfy/duptfy-linux-amd64.tar
+          /home/runner/work/duptfy/duptfy/duptfy-linux-arm.tar
