@@ -9,7 +9,7 @@ on:
     inputs:
       tag:
         description: "What tag to use"
-        default: "0.0.0"      
+        default: "1.0.0"      
   # pull_request:
   #   types:
   #     - closed
@@ -56,9 +56,6 @@ jobs:
 
         tar -cf /tmp/release/duptfy-linux-amd64.tar duptfy-linux-amd64
         tar -cf /tmp/release/duptfy-linux-arm.tar duptfy-linux-arm
-
-        pwd
-        ls -als
 
     - name: "Configure tags"
       if: github.ref_name == 'main'
