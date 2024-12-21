@@ -51,11 +51,11 @@ jobs:
       run: |
         mkdir -p /tmp/release/
       
-        GOOS=linux GOARCH=amd64 go build -o duptfy-linux-amd64 cmd/duptfy/main.go
-        GOOS=linux GOARCH=arm go build -o duptfy-linux-arm cmd/duptfy/main.go
+        GOOS=linux GOARCH=amd64 go build -o duptfy cmd/duptfy/main.go
+        tar -cf /tmp/release/duptfy-linux-amd64.tar duptfy
 
-        tar -cf /tmp/release/duptfy-linux-amd64.tar duptfy-linux-amd64
-        tar -cf /tmp/release/duptfy-linux-arm.tar duptfy-linux-arm
+        GOOS=linux GOARCH=arm go build -o duptfy cmd/duptfy/main.go
+        tar -cf /tmp/release/duptfy-linux-arm.tar duptfy
 
     - name: "Configure tags"
       if: github.ref_name == 'main'
