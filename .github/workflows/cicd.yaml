@@ -49,11 +49,13 @@ jobs:
 
     - name: Run build
       run: |
-        GOOS=linux GOARCH=amd64 go build -o /home/runner/duptfy-linux-amd64 cmd/duptfy/main.go
-        GOOS=linux GOARCH=arm go build -o /home/runner/duptfy-linux-arm cmd/duptfy/main.go
+        mkdir -p /tmp/release/
+      
+        GOOS=linux GOARCH=amd64 go build -o duptfy-linux-amd64 cmd/duptfy/main.go
+        GOOS=linux GOARCH=arm go build -o duptfy-linux-arm cmd/duptfy/main.go
 
-        tar -cf /home/runner/duptfy-linux-amd64.tar /home/runner/duptfy-linux-amd64
-        tar -cf /home/runner/duptfy-linux-arm.tar /home/runner/duptfy-linux-arm
+        tar -cf /tmp/release/duptfy-linux-amd64.tar duptfy-linux-amd64
+        tar -cf /tmp/release/duptfy-linux-arm.tar duptfy-linux-arm
 
         pwd
         ls -als
@@ -73,6 +75,4 @@ jobs:
       uses: softprops/action-gh-release@v2
       with:
         tag_name: ${{ github.event.inputs.tag }}
-        files: 
-          /home/runner/duptfy-linux-amd64.tar
-          /home/runner/duptfy-linux-arm.tar
+        files: /tmp/release/*
